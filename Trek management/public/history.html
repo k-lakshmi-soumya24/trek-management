@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Revisit the TrekMate trek details you have viewed in this browser.">
+    <meta name="theme-color" content="#163b2a">
+    <title>Your TrekMate history</title>
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/trek-detail.css">
+    <script src="/js/history-chart.js" defer></script>
+    <script src="/js/history.js" defer></script>
+</head>
+<body class="trek-detail-page history-page">
+    <header class="detail-header">
+        <a class="brand account-brand" href="/" aria-label="TrekMate home"><span class="brand-mark">T</span> trek<span>mate</span></a>
+        <nav class="detail-nav" aria-label="History navigation">
+            <a class="detail-back" href="/#treks">← All treks</a>
+            <a class="detail-back" href="/account.html">Sign in</a>
+        </nav>
+    </header>
+    <main class="history-main">
+        <section class="history-heading">
+            <p class="eyebrow light-eyebrow">YOUR TRAIL OF DISCOVERY</p>
+            <h1>Recently <em>viewed.</em></h1>
+            <p>Trek details you opened in this browser are saved here, so you can pick up where you left off.</p>
+        </section>
+        <section class="history-content" aria-labelledby="historyTitle">
+            <div class="history-title-row">
+                <div><p class="eyebrow">SAVED ON THIS DEVICE</p><h2 id="historyTitle">Your history</h2></div>
+                <button class="button button-outline" id="clearHistory" type="button" hidden>Clear history</button>
+            </div>
+            <div class="history-duration-chart" id="historyDurationChart"></div>
+            <p class="history-data-notice" id="historyDataNotice" role="status"></p>
+            <div class="history-grid" id="historyList" aria-live="polite"></div>
+        </section>
+    </main>
+    <footer class="detail-footer"><a class="brand footer-brand" href="/"><span class="brand-mark">T</span> trek<span>mate</span></a><p>History is stored only in this browser. Clearing browser site data also clears this history.</p></footer>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your TrekMate account or sign in to plan your next adventure.">
+    <title>Your TrekMate account</title>
+    <link rel="stylesheet" href="/css/site.css">
+    <script src="/js/account.js" defer></script>
+</head>
+<body class="account-page">
+    <header class="account-header">
+        <a class="brand account-brand" href="/" aria-label="TrekMate home"><span class="brand-mark">T</span> trek<span>mate</span></a>
+        <a class="account-back" href="/">← Back to exploring</a>
+    </header>
+    <main class="account-layout">
+        <section class="account-art">
+            <p class="eyebrow light-eyebrow">YOUR NEXT STORY STARTS HERE</p>
+            <h1>Find your<br>way <em>out there.</em></h1>
+            <p>Save a little space for fresh air, new friends, and the long way home.</p>
+        </section>
+        <section class="account-panel" aria-labelledby="accountTitle">
+            <div id="authForms">
+                <p class="eyebrow" id="accountEyebrow">WELCOME TO THE TRAIL</p>
+                <h2 id="accountTitle">Sign in to TrekMate</h2>
+                <p class="account-description" id="accountDescription">Pick up where your next adventure begins.</p>
+                <div class="auth-tabs" role="tablist" aria-label="Account access">
+                    <button class="auth-tab is-active" id="signInTab" type="button" role="tab" aria-selected="true" aria-controls="signInForm">Sign in</button>
+                    <button class="auth-tab" id="registerTab" type="button" role="tab" aria-selected="false" aria-controls="registerForm">Create account</button>
+                </div>
+                <form class="auth-form" id="signInForm">
+                    <label for="signInEmail">Email address<input id="signInEmail" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+                    <label for="signInPassword">Password<input id="signInPassword" name="password" type="password" autocomplete="current-password" maxlength="128" required></label>
+                    <p class="auth-error" id="signInError" role="alert"></p>
+                    <button class="button button-primary auth-submit" type="submit">Sign in <span>→</span></button>
+                </form>
+                <form class="auth-form" id="registerForm" hidden>
+                    <label for="registerName">Your name<input id="registerName" name="name" type="text" autocomplete="name" maxlength="80" required></label>
+                    <label for="registerEmail">Email address<input id="registerEmail" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+                    <label for="registerPassword">Create a password<input id="registerPassword" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" aria-describedby="passwordHint" required></label>
+                    <p class="password-hint" id="passwordHint">Use at least 10 characters. Your password is stored as a secure hash.</p>
+                    <p class="auth-error" id="registerError" role="alert"></p>
+                    <button class="button button-primary auth-submit" type="submit">Create my account <span>→</span></button>
+                </form>
+                <p class="admin-signin-note">Admins use this same sign-in form. Your account role will open the right area automatically.</p>
+            </div>
+            <div class="account-welcome" id="accountWelcome" hidden>
+                <span class="success-mark" aria-hidden="true">✓</span>
+                <p class="eyebrow">YOU'RE SIGNED IN</p>
+                <h2>Welcome, <em id="welcomeName"></em>.</h2>
+                <p class="account-description">Your next adventure is just around the bend.</p>
+                <div class="account-actions"><a class="button button-primary" href="/#treks">Explore treks <span>↗</span></a><button class="button button-outline" id="signOutButton" type="button">Sign out</button></div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,5 @@
+.env
+node_modules/
+trek-backend/node_modules/
+data/bookings.jsonl
+data/users.json

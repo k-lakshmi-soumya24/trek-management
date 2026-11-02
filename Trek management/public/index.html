@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find your next adventure with TrekMate. Explore guided treks across India and plan a trip that fits you.">
+    <meta name="theme-color" content="#163b2a">
+    <title>TrekMate | Find your next trail</title>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/trek-detail.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="/js/main.js" defer></script>
+    <script src="/js/history-chart.js" defer></script>
+    <script src="/js/trek-visits.js" defer></script>
+    <script src="/js/site.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="#home" aria-label="TrekMate home"><span class="brand-mark">T</span> trek<span>mate</span></a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+            <a href="#treks">Find a trek</a>
+            <a href="#history">History</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#ai">TrekMate AI</a>
+            <a href="#about">About</a>
+            <a href="/account.html" id="accountNavLink">Sign in</a>
+            <button class="nav-cta" type="button" data-open-booking>Plan a trip <span aria-hidden="true">↗</span></button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-shade"></div>
+            <div class="hero-content">
+                <p class="eyebrow light-eyebrow"><span></span> YOUR NEXT GREAT OUTDOORS STORY</p>
+                <h1>Find your<br>way <em>out there.</em></h1>
+                <p class="hero-copy">Big mountains, quiet trails, and the kind of moments that stay with you. Find a trek that feels like yours.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#treks">Explore treks <span aria-hidden="true">↓</span></a>
+                    <a class="hero-link" href="#how-it-works">How TrekMate works <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="hero-note"><span class="avatar-stack" aria-hidden="true"><b>✦</b><b>✦</b><b>✦</b></span><span><strong>Made for curious feet.</strong><br>From first hikes to big climbs.</span></div>
+            </div>
+            <div class="hero-caption"><span>01 / 03</span><span>THE OUTDOORS IS CLOSER THAN YOU THINK</span></div>
+            <a class="scroll-cue" href="#treks" aria-label="Scroll to treks">↓</a>
+        </section>
+
+        <section class="intro-strip" aria-label="TrekMate highlights">
+            <p><span>✳</span> A little less scrolling. A lot more exploring.</p>
+            <div><span>✦</span> Local trails</div><div><span>✦</span> Real people</div><div><span>✦</span> Your pace</div>
+        </section>
+
+        <section class="treks-section section-wrap" id="treks">
+            <div class="section-topline"><p class="eyebrow">PICK YOUR PATH</p><span class="live-status"><i id="apiStatusDot"></i><span id="apiStatusText">Connecting to TrekMate…</span></span></div>
+            <div class="section-title-row">
+                <div><h2>Good trails.<br><em>Great stories.</em></h2><p class="section-intro">Handpicked adventures across India, for every kind of weekend and every kind of wanderer.</p></div>
+                <span class="trail-doodle" aria-hidden="true">↗</span>
+            </div>
+            <div class="trek-filters">
+                <label class="search-box"><span aria-hidden="true">⌕</span><input id="trekSearch" type="search" placeholder="Search treks or places" aria-label="Search treks or places"></label>
+                <label class="filter-select"><span class="sr-only">Filter by difficulty</span><select id="difficultyFilter"><option value="all">All experience levels</option><option value="Easy">Easy</option><option value="Moderate">Moderate</option><option value="Challenging">Challenging</option></select></label>
+                <span class="results-count" id="resultsCount" aria-live="polite"></span>
+            </div>
+            <div class="trek-grid" id="trekGrid" aria-live="polite">
+                <div class="loading-card"><span class="loading-spinner"></span> Finding your next trail…</div>
+            </div>
+            <p class="section-footnote">Trek duration, distance, and prices are indicative. Your trip coordinator will confirm details before any booking is final.</p>
+        </section>
+
+        <section class="route-section" id="route-map">
+            <div class="route-heading">
+                <p class="eyebrow">SEE HOW FAR THE TRAIL IS</p>
+                <h2>Compare trek <em>locations.</em></h2>
+                <p>Choose two treks to see where their bases are and compare estimated travel between them.</p>
+            </div>
+            <div class="route-controls">
+                <label for="routeFrom">From<select id="routeFrom"><option value="">Choose a trek</option></select></label>
+                <span class="route-arrow" aria-hidden="true">→</span>
+                <label for="routeTo">To<select id="routeTo"><option value="">Choose a trek</option></select></label>
+            </div>
+            <div class="route-summary" id="routeSummary" aria-live="polite">Choose two treks to compare their locations.</div>
+            <div class="trek-map" id="trekMap" role="application" aria-label="Map of trek locations"></div>
+            <p class="map-disclaimer">Road distances and travel times are estimates from a public routing service, not live traffic or a confirmed itinerary. If routing is unavailable, the map shows direct distance only. Trek route distance is listed separately in each trek’s details.</p>
+        </section>
+
+        <section class="history-content section-wrap" id="history" aria-labelledby="historyTitle">
+            <div class="history-title-row">
+                <div><p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p><h2 id="historyTitle">Your trek history</h2></div>
+                <button class="button button-outline" id="clearHistory" type="button" hidden>Clear history</button>
+            </div>
+            <div class="history-duration-chart" id="historyDurationChart"></div>
+            <div class="history-grid" id="historyList" aria-live="polite"></div>
+        </section>
+
+        <section class="manifesto">
+            <div class="manifesto-image" role="img" aria-label="Mountain trail winding through a green valley"></div>
+            <div class="manifesto-copy">
+                <p class="eyebrow light-eyebrow">A DIFFERENT KIND OF GETAWAY</p>
+                <h2>Trade the scroll<br>for the <em>switchback.</em></h2>
+                <p>Somewhere between the first step and the summit, everything gets a little quieter. We help you find that somewhere.</p>
+                <a class="text-link light-link" href="#how-it-works">Meet your next adventure <span>→</span></a>
+                <span class="manifesto-number">02 <i>/ 04</i></span>
+            </div>
+        </section>
+
+        <section class="how-section section-wrap" id="how-it-works">
+            <div class="how-heading"><p class="eyebrow">NO GUESSWORK, JUST GOOD PLANS</p><h2>From “someday”<br>to <em>see you there.</em></h2></div>
+            <div class="steps-grid">
+                <article class="step-card"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">⌕</span><h3>Find your trail</h3><p>Browse by place, difficulty, and duration until something sparks.</p></article>
+                <article class="step-card"><span class="step-number">02</span><span class="step-icon" aria-hidden="true">↗</span><h3>Tell us your plan</h3><p>Send a no-pressure trip request. We’ll help you figure out the details.</p></article>
+                <article class="step-card"><span class="step-number">03</span><span class="step-icon" aria-hidden="true">✳</span><h3>Get out there</h3><p>Once the plan is confirmed, pack light, bring curiosity, and go.</p></article>
+            </div>
+        </section>
+
+        <section class="ai-section" id="ai">
+            <div class="ai-box">
+                <div class="ai-icon" aria-hidden="true">✳</div>
+                <div class="ai-content">
+                    <p class="eyebrow">A TRAIL-BUDDY IN YOUR POCKET</p>
+                    <h2>Meet TrekMate AI</h2>
+                    <p>Wondering what to pack, where to start, or how tough that trail really is? Ask away.</p>
+                    <div class="ai-availability" id="aiAvailability" role="status" aria-live="polite">
+                        <span class="ai-availability-dot"></span>
+                        <span id="aiAvailabilityText">Checking AI connection…</span>
+                        <a id="aiSetupLink" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" hidden>Create an OpenAI API key ↗</a>
+                    </div>
+                    <div class="language-row">
+                        <label for="language">Reply in</label>
+                        <select id="language">
+                            <option value="English">English</option><option value="Hindi">हिन्दी</option><option value="Kannada">ಕನ್ನಡ</option><option value="Tamil">தமிழ்</option><option value="Telugu">తెలుగు</option><option value="Malayalam">മലയാളം</option><option value="Marathi">मराठी</option>
+                        </select>
+                    </div>
+                    <form class="ai-input-box" id="aiForm">
+                        <input type="text" id="aiQuestion" placeholder="Ask about your next trek…" maxlength="2000" aria-label="Your trekking question" required>
+                        <button id="voiceButton" type="button" onclick="startVoiceInput()" aria-label="Ask using voice">🎙</button>
+                        <button class="ask-button" type="submit">Ask <span aria-hidden="true">→</span></button>
+                    </form>
+                    <div id="aiAnswer" class="ai-answer" aria-live="polite"><p>Your trail questions are welcome here.</p></div>
+                    <button class="speak-btn" type="button" onclick="speakAIAnswer()">Listen to answer <span aria-hidden="true">◖</span></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section section-wrap" id="about">
+            <div class="about-stamp" aria-hidden="true">GO<br>OUT<br>THERE</div>
+            <div class="about-copy"><p class="eyebrow">A NOTE FROM THE TRAIL</p><h2>More than a<br>place to <em>book.</em></h2></div>
+            <div class="about-detail"><p>TrekMate is here to make getting outdoors feel easier. Explore ideas, ask better questions, and send a trip request when you find a trail that feels right.</p><p class="about-signoff">The best plans start with a first step. <span>↗</span></p></div>
+        </section>
+
+        <section class="closing-cta">
+            <p class="eyebrow light-eyebrow">THE TRAIL IS CALLING</p>
+            <h2>Make room for<br><em>the unexpected.</em></h2>
+            <a class="button button-light" href="#treks">Find your trek <span>↗</span></a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="#home"><span class="brand-mark">T</span> trek<span>mate</span></a>
+        <p>Take the long way home.</p>
+        <nav aria-label="Footer navigation"><a href="#treks">Explore</a><a href="/history.html">History</a><a href="#ai">Ask TrekMate AI</a><a href="#about">About us</a></nav>
+        <small>© <span id="currentYear"></span> TrekMate. Find your way out there.</small>
+        <a class="admin-footer-link" href="/admin.html">Admin sign in</a>
+    </footer>
+
+    <dialog class="booking-dialog" id="bookingDialog" aria-labelledby="bookingTitle">
+        <form id="bookingForm" class="booking-form">
+            <button class="dialog-close" id="closeBooking" type="button" aria-label="Close booking form">×</button>
+            <p class="eyebrow">YOUR NEXT CHAPTER</p>
+            <h2 id="bookingTitle">Let's plan a <em>trek.</em></h2>
+            <p class="dialog-intro">Send us your trip details. This is a request, not a confirmed booking.</p>
+            <label for="bookingTrek">Trek<select id="bookingTrek" name="trekId" required><option value="">Choose a trek</option></select></label>
+            <div class="form-pair">
+                <label for="bookingName">Your name<input id="bookingName" name="name" type="text" autocomplete="name" maxlength="80" required></label>
+                <label for="bookingEmail">Email address<input id="bookingEmail" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+            </div>
+            <div class="form-pair">
+                <label for="bookingPhone">Phone number<input id="bookingPhone" name="phone" type="tel" autocomplete="tel" maxlength="20" required></label>
+                <label for="bookingDate">Preferred date<input id="bookingDate" name="travelDate" type="date" required></label>
+            </div>
+            <label for="bookingGroup">Group size<select id="bookingGroup" name="groupSize"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></label>
+            <p class="form-error" id="bookingError" role="alert"></p>
+            <button class="button button-primary form-submit" id="bookingSubmit" type="submit">Send trip request <span>→</span></button>
+            <p class="privacy-note">Your contact details are only used to respond to this trip request.</p>
+        </form>
+        <div class="booking-success" id="bookingSuccess" hidden>
+            <span class="success-mark" aria-hidden="true">✓</span>
+            <p class="eyebrow">REQUEST RECEIVED</p>
+            <h2>Adventure looks<br><em>good on you.</em></h2>
+            <p id="bookingConfirmation"></p>
+            <button class="button button-primary" id="doneBooking" type="button">Back to exploring</button>
+        </div>
+    </dialog>
+    <dialog class="trek-detail-dialog" id="trekDetailDialog" aria-labelledby="inlineTrekTitle">
+        <button class="dialog-close" id="closeTrekDetails" type="button" aria-label="Close trek details">×</button>
+        <div id="trekDetailContent" aria-live="polite"></div>
+    </dialog>
+</body>
+</html>

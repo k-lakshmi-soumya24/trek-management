@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Private TrekMate administrator sign in.">
+    <title>TrekMate admin</title>
+    <link rel="stylesheet" href="/css/site.css">
+    <script src="/js/admin.js" defer></script>
+</head>
+<body class="account-page">
+    <header class="account-header">
+        <a class="brand account-brand" href="/" aria-label="TrekMate home"><span class="brand-mark">T</span> trek<span>mate</span></a>
+        <a class="account-back" href="/">← Back to website</a>
+    </header>
+    <main class="admin-layout">
+        <section class="admin-heading">
+            <p class="eyebrow">PRIVATE ADMIN AREA</p>
+            <h1>Keep the<br>trail <em>moving.</em></h1>
+            <p>Sign in to review trip requests. Admin accounts are never created through public user registration.</p>
+            <span class="admin-lock" aria-hidden="true">✳</span>
+        </section>
+        <section class="admin-panel">
+            <div id="adminAuth">
+                <p class="eyebrow">TREKMATE TEAM</p>
+                <h2>Admin sign in</h2>
+                <p class="account-description">Admins and regular users sign in with the same account form. Admin accounts open this dashboard automatically.</p>
+                <a class="button button-primary auth-submit shared-signin-link" href="/account.html">Go to shared sign in <span>→</span></a>
+                <p class="auth-error" id="adminLoginError" role="alert"></p>
+                <p class="admin-setup-notice" id="adminSetupNotice" hidden></p>
+                <details class="admin-setup" id="adminSetupDetails" hidden>
+                    <summary>Set up the first admin account</summary>
+                    <p class="setup-warning">Only use this once, from your private computer. The setup code must be kept secret.</p>
+                    <form class="auth-form" id="adminSetupForm">
+                        <label for="setupCode">Private setup code<input id="setupCode" name="setupCode" type="password" autocomplete="off" minlength="24" maxlength="256" required></label>
+                        <label for="setupName">Admin name<input id="setupName" name="name" type="text" autocomplete="name" maxlength="80" required></label>
+                        <label for="setupEmail">Admin email<input id="setupEmail" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+                        <label for="setupPassword">Admin password<input id="setupPassword" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+                        <p class="auth-error" id="adminSetupError" role="alert"></p>
+                        <button class="button button-primary auth-submit" type="submit">Create private admin <span>→</span></button>
+                    </form>
+                </details>
+                <p class="admin-signin-note">This area is for TrekMate admins only. <a href="/account.html">Regular user sign in</a>.</p>
+            </div>
+            <div id="adminDashboard" hidden>
+                <div class="admin-dashboard-heading">
+                    <div><p class="eyebrow">ADMIN DASHBOARD</p><h2>Trip requests</h2><p class="account-description" id="adminWelcome"></p></div>
+                    <button class="button button-outline" id="adminSignOut" type="button">Sign out</button>
+                </div>
+                <p class="account-description">Rows marked <strong>DEMO SAMPLE</strong> are test entries, not real customer requests.</p>
+                <p class="auth-error" id="bookingLoadError" role="alert"></p>
+                <div class="admin-bookings" id="adminBookings" aria-live="polite"><p>Loading trip requests…</p></div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
